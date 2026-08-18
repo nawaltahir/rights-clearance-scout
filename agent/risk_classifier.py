@@ -10,6 +10,7 @@ import os
 from typing import Any
 
 from google import genai
+from agent.retry_util import call_with_retry
 from pydantic import BaseModel
 
 
@@ -56,12 +57,13 @@ def classify_risk(
         research_json=json.dumps(research.get("sources", []), indent=2),
     )
 
-    response = client.models.generate_content(
-        model="gemini-3.6-flash",
-        contents=prompt,
-        config={"response_mime_type": "application/json"},
+    response = call_with_retry(
+        lambda: client.models.generate_content(
+            model="gemini-3.6-flash",
+            contents=prompt,
+            config={"response_mime_type": "application/json"},
+        )
     )
-
     data = json.loads(response.text)
 
     return RiskVerdict(

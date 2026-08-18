@@ -9,6 +9,7 @@ import json
 import os
 
 from google import genai
+from agent.retry_util import call_with_retry
 from pydantic import BaseModel
 
 
@@ -49,10 +50,12 @@ SCRIPT:
 def extract_entities(script_text: str) -> ExtractionResult:
     client = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
 
-    response = client.models.generate_content(
-        model="gemini-3.6-flash",
-        contents=EXTRACTION_PROMPT.format(script_text=script_text),
-        config={"response_mime_type": "application/json"},
+    response = call_with_retry(
+        lambda: client.models.generate_content(
+            model="gemini-3.6-flash",
+            contents=EXTRACTION_PROMPT.format(script_text=script_text),
+            config={"response_mime_type": "application/json"},
+        )
     )
 
     data = json.loads(response.text)

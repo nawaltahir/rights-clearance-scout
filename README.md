@@ -4,6 +4,8 @@
 
 Built for the **Agentic Cinema: The Blockbuster Hackathon** — Parallel track.
 
+Service URL: https://rights-clearance-scout-445594624234.us-central1.run.app
+
 ## The problem
 
 Before a scene can be shot, legal/production teams have to manually check every song, brand, real person, and location referenced in a script for clearance risk: active litigation, licensing disputes, right-of-publicity issues, trademark conflicts. This is slow, manual, and easy to miss things on — a single uncleared song cue or a real person's name in a "based on true events" script can trigger a six-figure lawsuit or a forced re-shoot.
